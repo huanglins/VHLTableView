@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF55638F1F6A9E960016C71A /* VHLMenuLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = BF55638E1F6A9E960016C71A /* VHLMenuLabel.m */; };
+		BF5563921F6ABA030016C71A /* VHLBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5563911F6ABA030016C71A /* VHLBadgeView.m */; };
+		BF5563951F6B65A90016C71A /* vhltableview_badge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF5563941F6B65A90016C71A /* vhltableview_badge@2x.png */; };
 		BF621BDA1F68DD0B00762A48 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BF621BD91F68DD0B00762A48 /* main.m */; };
 		BF621BDD1F68DD0B00762A48 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF621BDC1F68DD0B00762A48 /* AppDelegate.m */; };
 		BF621BE01F68DD0B00762A48 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF621BDF1F68DD0B00762A48 /* ViewController.m */; };
@@ -14,6 +17,13 @@
 		BF621BE51F68DD0B00762A48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF621BE41F68DD0B00762A48 /* Assets.xcassets */; };
 		BF621BE81F68DD0B00762A48 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF621BE61F68DD0B00762A48 /* LaunchScreen.storyboard */; };
 		BF621BF31F68DD0B00762A48 /* VHLTableViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BF621BF21F68DD0B00762A48 /* VHLTableViewTests.m */; };
+		BF621C001F68E12400762A48 /* VHLTableViewUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = BF621BFF1F68E12400762A48 /* VHLTableViewUserInfo.m */; };
+		BF621C031F68E14500762A48 /* VHLTableViewSectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = BF621C021F68E14500762A48 /* VHLTableViewSectionInfo.m */; };
+		BF621C061F68E19C00762A48 /* VHLTableViewInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = BF621C051F68E19C00762A48 /* VHLTableViewInfo.m */; };
+		BF621C091F68E1AB00762A48 /* VHLTableViewCellInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = BF621C081F68E1AB00762A48 /* VHLTableViewCellInfo.m */; };
+		BF621C0C1F68E1D400762A48 /* VHLTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF621C0B1F68E1D400762A48 /* VHLTableViewCell.m */; };
+		BF7AEE191F690AA500724689 /* VHLTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7AEE181F690AA500724689 /* VHLTableView.m */; };
+		BF7AEE1B1F6A58B000724689 /* bg_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BF7AEE1A1F6A58B000724689 /* bg_image.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +37,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BF55638D1F6A9E960016C71A /* VHLMenuLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VHLMenuLabel.h; sourceTree = "<group>"; };
+		BF55638E1F6A9E960016C71A /* VHLMenuLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VHLMenuLabel.m; sourceTree = "<group>"; };
+		BF5563901F6ABA030016C71A /* VHLBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VHLBadgeView.h; sourceTree = "<group>"; };
+		BF5563911F6ABA030016C71A /* VHLBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VHLBadgeView.m; sourceTree = "<group>"; };
+		BF5563941F6B65A90016C71A /* vhltableview_badge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vhltableview_badge@2x.png"; sourceTree = "<group>"; };
 		BF621BD51F68DD0B00762A48 /* VHLTableView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VHLTableView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF621BD91F68DD0B00762A48 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BF621BDB1F68DD0B00762A48 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -40,6 +55,19 @@
 		BF621BEE1F68DD0B00762A48 /* VHLTableViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VHLTableViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF621BF21F68DD0B00762A48 /* VHLTableViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VHLTableViewTests.m; sourceTree = "<group>"; };
 		BF621BF41F68DD0B00762A48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BF621BFE1F68E12400762A48 /* VHLTableViewUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VHLTableViewUserInfo.h; sourceTree = "<group>"; };
+		BF621BFF1F68E12400762A48 /* VHLTableViewUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VHLTableViewUserInfo.m; sourceTree = "<group>"; };
+		BF621C011F68E14500762A48 /* VHLTableViewSectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VHLTableViewSectionInfo.h; sourceTree = "<group>"; };
+		BF621C021F68E14500762A48 /* VHLTableViewSectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VHLTableViewSectionInfo.m; sourceTree = "<group>"; };
+		BF621C041F68E19C00762A48 /* VHLTableViewInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VHLTableViewInfo.h; sourceTree = "<group>"; };
+		BF621C051F68E19C00762A48 /* VHLTableViewInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VHLTableViewInfo.m; sourceTree = "<group>"; };
+		BF621C071F68E1AB00762A48 /* VHLTableViewCellInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VHLTableViewCellInfo.h; sourceTree = "<group>"; };
+		BF621C081F68E1AB00762A48 /* VHLTableViewCellInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VHLTableViewCellInfo.m; sourceTree = "<group>"; };
+		BF621C0A1F68E1D400762A48 /* VHLTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VHLTableViewCell.h; sourceTree = "<group>"; };
+		BF621C0B1F68E1D400762A48 /* VHLTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VHLTableViewCell.m; sourceTree = "<group>"; };
+		BF7AEE171F690AA500724689 /* VHLTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VHLTableView.h; sourceTree = "<group>"; };
+		BF7AEE181F690AA500724689 /* VHLTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VHLTableView.m; sourceTree = "<group>"; };
+		BF7AEE1A1F6A58B000724689 /* bg_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_image.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +88,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BF55638C1F6A9E750016C71A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BF55638D1F6A9E960016C71A /* VHLMenuLabel.h */,
+				BF55638E1F6A9E960016C71A /* VHLMenuLabel.m */,
+				BF5563901F6ABA030016C71A /* VHLBadgeView.h */,
+				BF5563911F6ABA030016C71A /* VHLBadgeView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BF5563931F6B65A90016C71A /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				BF5563941F6B65A90016C71A /* vhltableview_badge@2x.png */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		BF621BCC1F68DD0B00762A48 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +128,8 @@
 		BF621BD71F68DD0B00762A48 /* VHLTableView */ = {
 			isa = PBXGroup;
 			children = (
+				BF7AEE1A1F6A58B000724689 /* bg_image.jpg */,
+				BF621BFD1F68DD1A00762A48 /* VHLTableView */,
 				BF621BDB1F68DD0B00762A48 /* AppDelegate.h */,
 				BF621BDC1F68DD0B00762A48 /* AppDelegate.m */,
 				BF621BDE1F68DD0B00762A48 /* ViewController.h */,
@@ -109,6 +158,27 @@
 				BF621BF41F68DD0B00762A48 /* Info.plist */,
 			);
 			path = VHLTableViewTests;
+			sourceTree = "<group>";
+		};
+		BF621BFD1F68DD1A00762A48 /* VHLTableView */ = {
+			isa = PBXGroup;
+			children = (
+				BF5563931F6B65A90016C71A /* Image */,
+				BF55638C1F6A9E750016C71A /* View */,
+				BF621BFE1F68E12400762A48 /* VHLTableViewUserInfo.h */,
+				BF621BFF1F68E12400762A48 /* VHLTableViewUserInfo.m */,
+				BF7AEE171F690AA500724689 /* VHLTableView.h */,
+				BF7AEE181F690AA500724689 /* VHLTableView.m */,
+				BF621C041F68E19C00762A48 /* VHLTableViewInfo.h */,
+				BF621C051F68E19C00762A48 /* VHLTableViewInfo.m */,
+				BF621C011F68E14500762A48 /* VHLTableViewSectionInfo.h */,
+				BF621C021F68E14500762A48 /* VHLTableViewSectionInfo.m */,
+				BF621C071F68E1AB00762A48 /* VHLTableViewCellInfo.h */,
+				BF621C081F68E1AB00762A48 /* VHLTableViewCellInfo.m */,
+				BF621C0A1F68E1D400762A48 /* VHLTableViewCell.h */,
+				BF621C0B1F68E1D400762A48 /* VHLTableViewCell.m */,
+			);
+			path = VHLTableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,7 +230,7 @@
 				TargetAttributes = {
 					BF621BD41F68DD0B00762A48 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = FZT42497ZM;
+						DevelopmentTeam = WYG5F947FP;
 						ProvisioningStyle = Automatic;
 					};
 					BF621BED1F68DD0B00762A48 = {
@@ -195,8 +265,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF5563951F6B65A90016C71A /* vhltableview_badge@2x.png in Resources */,
 				BF621BE81F68DD0B00762A48 /* LaunchScreen.storyboard in Resources */,
 				BF621BE51F68DD0B00762A48 /* Assets.xcassets in Resources */,
+				BF7AEE1B1F6A58B000724689 /* bg_image.jpg in Resources */,
 				BF621BE31F68DD0B00762A48 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -216,7 +288,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF621BE01F68DD0B00762A48 /* ViewController.m in Sources */,
+				BF7AEE191F690AA500724689 /* VHLTableView.m in Sources */,
+				BF55638F1F6A9E960016C71A /* VHLMenuLabel.m in Sources */,
+				BF621C001F68E12400762A48 /* VHLTableViewUserInfo.m in Sources */,
+				BF621C0C1F68E1D400762A48 /* VHLTableViewCell.m in Sources */,
+				BF621C031F68E14500762A48 /* VHLTableViewSectionInfo.m in Sources */,
+				BF621C091F68E1AB00762A48 /* VHLTableViewCellInfo.m in Sources */,
 				BF621BDD1F68DD0B00762A48 /* AppDelegate.m in Sources */,
+				BF5563921F6ABA030016C71A /* VHLBadgeView.m in Sources */,
+				BF621C061F68E19C00762A48 /* VHLTableViewInfo.m in Sources */,
 				BF621BDA1F68DD0B00762A48 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,7 +433,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = FZT42497ZM;
+				DEVELOPMENT_TEAM = WYG5F947FP;
 				INFOPLIST_FILE = VHLTableView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.vincents.VHLTableView;
@@ -365,7 +445,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = FZT42497ZM;
+				DEVELOPMENT_TEAM = WYG5F947FP;
 				INFOPLIST_FILE = VHLTableView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.vincents.VHLTableView;
@@ -418,6 +498,7 @@
 				BF621BF91F68DD0B00762A48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BF621BFA1F68DD0B00762A48 /* Build configuration list for PBXNativeTarget "VHLTableViewTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +507,7 @@
 				BF621BFC1F68DD0B00762A48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
