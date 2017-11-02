@@ -24,6 +24,10 @@
     }
     return self;
 }
+// 设置默认的 CELL 高度
++ (void)setDefaultCellHeight {
+    
+}
 #pragma mark - normal Cell -------------------------------------------------------------------------
 + (instancetype)normalCellForTitle:(NSString *)title rightValue:(NSString *)rightValue {
     VHLTableViewCellInfo *cellInfo = [VHLTableViewCellInfo normalCellForSel:nil target:nil title:title rightValue:rightValue accessoryType:0];
@@ -44,13 +48,16 @@
 + (instancetype)normalCellForSel:(SEL)sel target:(id)target title:(NSString *)title accessoryType:(UITableViewCellAccessoryType)accessoryType {
     return [VHLTableViewCellInfo normalCellForSel:sel target:target title:title rightValue:nil accessoryType:accessoryType];
 }
++ (instancetype)normalCellForSel:(SEL)sel target:(id)target title:(NSString *)title imageName:(NSString *)imageName accessoryType:(UITableViewCellAccessoryType)accessoryType {
+    return [VHLTableViewCellInfo normalCellForSel:sel target:target title:title rightView:nil imageName:imageName accessoryType:accessoryType];
+}
 + (instancetype)normalCellForSel:(SEL)sel target:(id)target title:(NSString *)title rightValue:(NSString *)rightValue accessoryType:(UITableViewCellAccessoryType)accessoryType {
     VHLTableViewCellInfo *cellInfo = [[VHLTableViewCellInfo alloc] init];
     [cellInfo setMakeSel:@selector(makeNormalCell:)];
     [cellInfo setMakeTarget:cellInfo];
     [cellInfo setActionSel:sel];
     [cellInfo setActionTarget:target];
-    [cellInfo setFCellHeight:44.0f];
+    [cellInfo setFCellHeight:DEFAULT_CELL_HEIGHT];
     [cellInfo setAccessoryType:accessoryType];
     [cellInfo addUserInfoValue:title forKey:@"title"];
     [cellInfo addUserInfoValue:rightValue forKey:@"rightValue"];
@@ -84,6 +91,7 @@
 }
 // UI
 - (void)makeNormalCell:(VHLTableViewCell *)cell {
+    _cell = cell;
     NSString *title = [self getUserInfoValueForKey:@"title"];
     UIColor *titleColor = [self getUserInfoValueForKey:@"titleColor"];
     UIFont *titleFont = [self getUserInfoValueForKey:@"titleFont"];
@@ -94,10 +102,12 @@
     UIView *rightView = [self getUserInfoValueForKey:@"rightView"];
     BOOL canCopy = [[self getUserInfoValueForKey:@"canCopy"] boolValue];
     BOOL isFixedWidth = [[self getUserInfoValueForKey:@"isFixedWidth"] boolValue];
+    UIView *selectedBackgroundView = [self getUserInfoValueForKey:@"selectedBackgroundView"];
     
     cell.selectionStyle = _selectionStyle;
     cell.accessoryType  = _accessoryType;
     cell.backgroundView.hidden = NO;
+    cell.selectedBackgroundView = selectedBackgroundView;
     
     UIImageView *imageView = nil;
     if (imageName.length) {
@@ -114,7 +124,7 @@
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.text = title;
         titleLabel.textColor = titleColor?:[UIColor blackColor];
-        titleLabel.font = titleFont?:[UIFont systemFontOfSize:17.0f];
+        titleLabel.font = titleFont?:[UIFont systemFontOfSize:16.0f];
         titleLabel.textAlignment = NSTextAlignmentLeft;
         titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         [titleLabel sizeToFit];
@@ -136,7 +146,7 @@
         rightLabel.textAlignment = NSTextAlignmentRight;
         rightLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         
-        CGFloat rightLabelMaxWidth = [UIScreen mainScreen].bounds.size.width - titleLabel.frame.size.width - 15.0f - 30;
+        CGFloat rightLabelMaxWidth = _cell.bounds.size.width - titleLabel.frame.size.width - 15.0f - 30;
         if (cell.accessoryType != UITableViewCellAccessoryNone) {
             rightLabelMaxWidth -= 23.0f;
         }
@@ -148,7 +158,7 @@
         [cell.contentView addSubview:rightLabel];
         
         if (!isFixedWidth && rightLabelHeight > titleLabel.frame.size.height) {
-            self.fCellHeight = 44.0f + (rightLabelHeight - titleLabel.frame.size.height);
+            self.fCellHeight = DEFAULT_CELL_HEIGHT + (rightLabelHeight - titleLabel.frame.size.height);
             titleLabel.center = CGPointMake(titleLabel.center.x, self.fCellHeight / 2);
             rightLabel.center = CGPointMake(rightLabel.center.x, self.fCellHeight / 2);
         }
@@ -159,13 +169,13 @@
     }
     
     if (rightView) {
-        CGFloat left = [UIScreen mainScreen].bounds.size.width - rightView.frame.size.width - 10.0f;
+        CGFloat left = _cell.bounds.size.width - rightView.frame.size.width - 10.0f;
         if (cell.accessoryType != UITableViewCellAccessoryNone) {
             left -= 23.0f;
         }
-        rightView.frame = CGRectMake(left, 0, rightView.frame.size.width, rightView.frame.size.height);
+        rightView.frame = CGRectMake(left, (cell.frame.size.height - rightView.frame.size.height) * 0.5f, rightView.frame.size.width, rightView.frame.size.height);
         [cell.contentView addSubview:rightView];
-        rightView.center = CGPointMake(rightView.center.x, cell.contentView.center.y);
+        //rightView.center = CGPointMake(rightView.center.x, cell.contentView.center.y);
     }
     // ------------------------------- 小红点 -------------------------------
     NSString *badge = [self getUserInfoValueForKey:@"badge"];
@@ -176,8 +186,6 @@
         badgeView.center = CGPointMake(badgeView.center.x, titleLabel.center.y);
         [cell.contentView addSubview:badgeView];
     }
-    // 
-    self.cell = cell;
 }
 #pragma mark - badge Cell -------------------------------------------------------------------------
 + (instancetype)badgeCellForSel:(SEL)sel target:(id)target title:(NSString *)title badge:(NSString *)badge {
@@ -211,7 +219,7 @@
     [cellInfo setMakeTarget:cellInfo];
     [cellInfo setActionSel:sel];
     [cellInfo setActionTarget:target];
-    [cellInfo setFCellHeight:44.0f];
+    [cellInfo setFCellHeight:DEFAULT_CELL_HEIGHT];
     [cellInfo setSelectionStyle:UITableViewCellSelectionStyleNone];
     [cellInfo setAccessoryType:UITableViewCellAccessoryNone];
     UITextAutocorrectionType autocorrectionType = UITextAutocorrectionTypeNo;
@@ -228,16 +236,19 @@
     return cellInfo;
 }
 - (void)makeEditorCell:(VHLTableViewCell *)cell {
+    _cell = cell;
     NSString *title = [self getUserInfoValueForKey:@"title"];
     NSString *text = [self getUserInfoValueForKey:@"text"];
     NSString *tip = [self getUserInfoValueForKey:@"tip"];
+    UIFont *font = [self getUserInfoValueForKey:@"font"];
     BOOL focus = [[self getUserInfoValueForKey:@"focus"] boolValue];
     BOOL secureTextEntry = [[self getUserInfoValueForKey:@"secureTextEntry"] boolValue];
     UIKeyboardType keyboardType = [[self getUserInfoValueForKey:@"keyboardType"] integerValue];
     CGFloat margin = [[self getUserInfoValueForKey:@"fEditorLMargin"] floatValue];
+    UIView *selectedBackgroundView = [self getUserInfoValueForKey:@"selectedBackgroundView"];
     
     CGFloat left = 15.0f;
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    CGFloat screenWidth = _cell.bounds.size.width;
     if (title.length) {
         cell.textLabel.text = title;
         left += [title vhltableview_sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:screenWidth maxHeight:CGFLOAT_MAX].width + margin + 15.0f;
@@ -249,6 +260,7 @@
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     textField.keyboardType = keyboardType;
+    textField.font = font;
     textField.autocorrectionType = _autoCorrectionType;
     textField.returnKeyType = UIReturnKeyDone;
     textField.enablesReturnKeyAutomatically = YES;
@@ -266,11 +278,10 @@
     [cell.contentView addSubview:textField];
     cell.selectionStyle = _selectionStyle;
     cell.accessoryType = _accessoryType;
+    cell.selectedBackgroundView = selectedBackgroundView;
     [self addUserInfoValue:textField forKey:@"editor"];
-    self.cell = cell;
 }
-- (void)actionEditorCell:(UITextField *)textField
-{
+- (void)actionEditorCell:(UITextField *)textField {
     if (textField.text.length) {
         [self addUserInfoValue:textField.text forKey:@"text"];
     } else {
@@ -284,7 +295,7 @@
     [cellInfo setMakeTarget:cellInfo];
     [cellInfo setActionSel:sel];
     [cellInfo setActionTargetForSwitchCell:target];
-    [cellInfo setFCellHeight:44.0f];
+    [cellInfo setFCellHeight:DEFAULT_CELL_HEIGHT];
     [cellInfo setSelectionStyle:UITableViewCellSelectionStyleNone];
     [cellInfo setAccessoryType:UITableViewCellAccessoryNone];
     [cellInfo addUserInfoValue:title forKey:@"title"];
@@ -300,13 +311,10 @@
     [switchView setOn:on];
     [cell setAccessoryView:switchView];
     [self addUserInfoValue:switchView forKey:@"switch"];
-    self.cell = cell;
 }
-- (void)actionSwitchCell:(UISwitch *)switchView
-{
+- (void)actionSwitchCell:(UISwitch *)switchView {
     [self addUserInfoValue:@(switchView.isOn) forKey:@"on"];
 }
-
 #pragma mark - center Cell -------------------------------------------------------------------------
 + (instancetype)centerCellForSel:(SEL)sel target:(id)target title:(NSString *)title {
     VHLTableViewCellInfo *cellInfo = [[VHLTableViewCellInfo alloc] init];
@@ -314,25 +322,26 @@
     cellInfo.makeTarget = cellInfo;
     cellInfo.actionSel = sel;
     cellInfo.actionTarget = target;
-    cellInfo.fCellHeight = 44.0f;
+    cellInfo.fCellHeight = DEFAULT_CELL_HEIGHT;
     cellInfo.accessoryType = UITableViewCellAccessoryNone;
     cellInfo.cellStyle = UITableViewCellStyleDefault;
     [cellInfo addUserInfoValue:title forKey:@"title"];
     return cellInfo;
 }
-- (void)makeCenterCell:(VHLTableViewCell *)cell
-{
+- (void)makeCenterCell:(VHLTableViewCell *)cell {
+    _cell = cell;
     NSString *title = [self getUserInfoValueForKey:@"title"];
     UIColor *titleColor = [self getUserInfoValueForKey:@"titleColor"];
     UIFont *titleFont = [self getUserInfoValueForKey:@"titleFont"];
+    UIView *selectedBackgroundView = [self getUserInfoValueForKey:@"selectedBackgroundView"];
+    
     cell.textLabel.text = title;
     cell.textLabel.font = titleFont?:[UIFont systemFontOfSize:17.0f];
     cell.textLabel.textColor = titleColor?:[UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.selectionStyle = _selectionStyle;
     cell.accessoryType = _accessoryType;
-    
-    self.cell = cell;
+    cell.selectedBackgroundView = selectedBackgroundView;
 }
 #pragma mark - custom Cell -------------------------------------------------------------------------
 + (instancetype)cellForMakeSel:(SEL)makeSel makeTarget:(id)makeTarget height:(CGFloat)height userInfo:(VHLTableViewUserInfo *)userInfo {

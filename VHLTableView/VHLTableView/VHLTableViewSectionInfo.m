@@ -129,7 +129,16 @@
     [_cells addObject:cell];
 }
 - (void)insertCell:(VHLTableViewCellInfo *)cell At:(NSUInteger)row {
-    [_cells insertObject:cell atIndex:row];
+    if (row < _cells.count) {
+        [_cells insertObject:cell atIndex:row];
+    }
+}
+- (void)updateCell:(VHLTableViewCellInfo *)cell At:(NSUInteger)row {
+    if (row < _cells.count && cell) {
+        NSMutableArray *newCellArray = [_cells mutableCopy];
+        [newCellArray replaceObjectAtIndex:row withObject:cell];
+        _cells = newCellArray;
+    }
 }
 - (void)removeCellAt:(NSUInteger)row {
     [_cells removeObjectAtIndex:row];

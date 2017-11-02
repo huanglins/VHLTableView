@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "VHLTableViewUserInfo.h"
+#import "VHLTableViewSectionInfo.h"
+#import "VHLTableViewCellInfo.h"
+
 @protocol VHLTableViewDelegate <NSObject>
 @optional
 - (void)touchesEnded_TableView:(NSSet *)set withEvent:(UIEvent *)event;

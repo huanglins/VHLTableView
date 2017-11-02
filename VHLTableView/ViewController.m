@@ -21,7 +21,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     _tableViewInfo = [[VHLTableViewInfo alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     _tableViewInfo.delegate = self;
     //[_tableViewInfo getTableView].backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_image.jpg"]];
@@ -36,6 +36,12 @@
     [self createNormalSection2];
     [self createNormalSection3];
     [self createCenterSection];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [_tableViewInfo getTableView].frame = self.view.bounds;
+    [[_tableViewInfo getTableView] layoutSubviews];
 }
 
 - (void)createNormalSection {
@@ -134,11 +140,13 @@
     [[self.tableViewInfo getTableView] endEditing:YES];
 }
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if ([textField.superview.superview isKindOfClass:[UITableViewCell class]]) {
+        //[self.tableViewInfo.getTableView scrollToRowAtIndexPath:[self.tableViewInfo index] atScrollPosition:<#(UITableViewScrollPosition)#> animated:<#(BOOL)#>]
+    }
     NSLog(@"开始编辑内容");
 }
 #pragma mark ---------------------------------------------------------------------------------------
-- (void)on:(UISwitch *)switchView
-{
+- (void)on:(UISwitch *)switchView {
     NSLog(@"%d", switchView.isOn);
 }
 - (void)cellInfo:(UITableViewCell *)cell {

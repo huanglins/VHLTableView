@@ -9,6 +9,9 @@
 #import "VHLTableViewUserInfo.h"
 #import <UIKit/UIKit.h>
 
+// 默认的Cell 高度
+#define DEFAULT_CELL_HEIGHT 48
+
 @class VHLTableViewCell;
 
 @interface VHLTableViewCellInfo : VHLTableViewUserInfo
@@ -30,17 +33,19 @@
 @property (nonatomic, weak) id calHeightTarget;
 
 @property (nonatomic, weak) VHLTableViewCell *cell;
-@property (nonatomic, assign) CGFloat fCellHeight;
+@property (nonatomic, strong) NSIndexPath *indexPath;
+@property (nonatomic, assign) CGFloat fCellHeight;          // 指定 Cell 的高度
 
 // normal Cell - 普通文字显示的Cell
 + (instancetype)normalCellForTitle:(NSString *)title rightValue:(NSString *)rightValue;
 + (instancetype)normalCellForTitle:(NSString *)title rightValue:(NSString *)rightValue canRightValueCopy:(BOOL)canCopy;
 + (instancetype)normalCellForTitle:(NSString *)title rightValue:(NSString *)rightValue imageName:(NSString *)imageName;
+
 + (instancetype)normalCellForSel:(SEL)sel target:(id)target title:(NSString *)title accessoryType:(UITableViewCellAccessoryType)accessoryType;
++ (instancetype)normalCellForSel:(SEL)sel target:(id)target title:(NSString *)title imageName:(NSString *)imageName accessoryType:(UITableViewCellAccessoryType)accessoryType;
 + (instancetype)normalCellForSel:(SEL)sel target:(id)target title:(NSString *)title rightValue:(NSString *)rightValue accessoryType:(UITableViewCellAccessoryType)accessoryType;
 + (instancetype)normalCellForSel:(SEL)sel target:(id)target title:(NSString *)title rightValue:(NSString *)rightValue accessoryType:(UITableViewCellAccessoryType)accessoryType isFixedWidth:(BOOL)fixedWidth;
 + (instancetype)normalCellForSel:(SEL)sel target:(id)target title:(NSString *)title rightView:(UIView *)rightView accessoryType:(UITableViewCellAccessoryType)accessoryType;
-
 + (instancetype)normalCellForSel:(SEL)sel target:(id)target title:(NSString *)title rightValue:(NSString *)rightValue imageName:(NSString *)imageName accessoryType:(UITableViewCellAccessoryType)accessoryType;
 + (instancetype)normalCellForSel:(SEL)sel target:(id)target title:(NSString *)title rightValue:(NSString *)rightValue imageName:(NSString *)imageName accessoryType:(UITableViewCellAccessoryType)accessoryType isFixedWidth:(BOOL)fixedWidth;
 + (instancetype)normalCellForSel:(SEL)sel target:(id)target title:(NSString *)title rightView:(UIView *)rightView imageName:(NSString *)imageName accessoryType:(UITableViewCellAccessoryType)accessoryType;
@@ -49,7 +54,6 @@
 + (instancetype)badgeCellForSel:(SEL)sel target:(id)target title:(NSString *)title badge:(NSString *)badge;
 + (instancetype)badgeCellForSel:(SEL)sel target:(id)target title:(NSString *)title badge:(NSString *)badge rightValue:(NSString *)rightValue;
 + (instancetype)badgeCellForSel:(SEL)sel target:(id)target title:(NSString *)title badge:(NSString *)badge rightValue:(NSString *)rightValue imageName:(NSString *)imageName;
-
 
 // edit Cell - 带文本框的Cell
 + (instancetype)editorCellForSel:(SEL)sel target:(id)target tip:(NSString *)tip focus:(BOOL)focus text:(NSString *)text;
@@ -69,3 +73,11 @@
 + (instancetype)cellForMakeSel:(SEL)makeSel makeTarget:(id)makeTarget actionSel:(SEL)actionSel actionTarget:(id)actionTarget calHeightSel:(SEL)calHeightSel calHeightTarget:(id)calHeightTarget userInfo:(VHLTableViewUserInfo *)userInfo;
 
 @end
+/**
+    隐藏属性：
+    valueForKey 获取
+ 
+    editCell
+    text: 当前输入框的内容
+ 
+ */

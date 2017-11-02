@@ -7,9 +7,6 @@
 //
 
 #import "VHLTableViewInfo.h"
-#import "VHLTableViewSectionInfo.h"
-#import "VHLTableViewCellInfo.h"
-#import "VHLTableViewCell.h"
 
 #define LineColor [UIColor colorWithRed:0.91 green:0.91 blue:0.91 alpha:1.00]
 
@@ -22,20 +19,37 @@
 
 @implementation VHLTableViewInfo
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _tableView.delegate = nil;
+    _tableView.dataSource = nil;
+    _tableView.m_delegate = nil;
+}
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
     if (self = [super init]) {
         _tableView = [[VHLTableView alloc] initWithFrame:frame style:style];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_10_3
+        if (@available(iOS 11.0, *)) {
+            if ([_tableView respondsToSelector:@selector(setContentInsetAdjustmentBehavior:)]) {
+                _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+            }
+        }
+#endif
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_8_4
+        if([_tableView respondsToSelector:@selector(cellLayoutMarginsFollowReadableWidth)]) {
+            _tableView.cellLayoutMarginsFollowReadableWidth = NO;
+        }
+#endif
         _sections = @[].mutableCopy;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationChanged:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;
 }
-
-- (void)dealloc {
-    _tableView.delegate = nil;
-    _tableView.dataSource = nil;
-    _tableView.m_delegate = nil;
+- (void)deviceOrientationChanged:(NSNotification *)noti {
+    [self.tableView reloadData];
 }
 #pragma mark - UITableView DataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -50,7 +64,6 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:cellInfo.cellStyle reuseIdentifier:identifier];
-        
     } else {
         for (UIView *subview in cell.contentView.subviews) {
             [subview removeFromSuperview];
@@ -62,6 +75,15 @@
     }
     //
     if (cellInfo.makeTarget) {
+        /** cell 取宽度第一次是 320,显示会有问题*/
+        if (cell.frame.size.width != tableView.frame.size.width) {
+            CGRect cellFrame = cell.frame;
+            cellFrame.size.width = tableView.frame.size.width;
+            cellFrame.size.height = cellInfo.fCellHeight;
+            cell.frame = cellFrame;
+        }
+        cellInfo.cell = (VHLTableViewCell *)cell;
+        cellInfo.indexPath = indexPath;
         if ([cellInfo.makeTarget respondsToSelector:cellInfo.makeSel]) {
             NoWarningPerformSelector(cellInfo.makeTarget, cellInfo.makeSel, cell, cellInfo);
         }
@@ -70,7 +92,6 @@
             line.backgroundColor = LineColor;//[UIColor lightGrayColor];
             [cell.contentView addSubview:line];
         }
-        cellInfo.cell = (VHLTableViewCell *)cell;
     }
     return cell;
 }
@@ -167,9 +188,6 @@
     return nil;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return 10;
-    }
     if (section < _sections.count) {
         NSString *headerTitle = [self tableView:tableView titleForHeaderInSection:section];
         if (headerTitle) {
@@ -177,6 +195,9 @@
         } else {
             VHLTableViewSectionInfo *sectionInfo = _sections[section];
             if (!sectionInfo.makeHeaderTarget) {
+                if(section == 0) {
+                    return 10;
+                }
                 return sectionInfo.fHeaderHeight;
             } else {
                 UIView *headerView = [sectionInfo getUserInfoValueForKey:@"header"];
@@ -227,7 +248,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section < _sections.count) {
         VHLTableViewCellInfo *cellInfo = [self getCellAtSection:indexPath.section row:indexPath.row];
-        if (cellInfo && cellInfo.selectionStyle != UITableViewCellSelectionStyleNone) {
+        if (cellInfo) {   // && cellInfo.selectionStyle != UITableViewCellSelectionStyleNone
             id target = cellInfo.actionTarget;
             if (target) {
                 if ([target respondsToSelector:cellInfo.actionSel]) {
@@ -330,16 +351,13 @@
     }
     return nil;
 }
-+ (UIView *)genHeaderView:(NSString *)headerTitle andIsUseDynamic:(BOOL)dynamic
-{
++ (UIView *)genHeaderView:(NSString *)headerTitle andIsUseDynamic:(BOOL)dynamic {
     return [self createHeaderOrFooterViewWithTitle:headerTitle];
 }
-+ (UIView *)genFooterView:(NSString *)footerTitle
-{
++ (UIView *)genFooterView:(NSString *)footerTitle {
     return [self createHeaderOrFooterViewWithTitle:footerTitle];
 }
-+ (UIView *)createHeaderOrFooterViewWithTitle:(NSString *)title
-{
++ (UIView *)createHeaderOrFooterViewWithTitle:(NSString *)title {
     UIView *view = [[UIView alloc] init];
     UILabel *label = [[UILabel alloc] init];
     label.font = [UIFont systemFontOfSize:14.0f];
@@ -353,6 +371,9 @@
     return view;
 }
 // -------------------------------------------------------------------------------------------------
+- (NSUInteger)sectionIndexWithSectionInfo:(VHLTableViewSectionInfo *)sectionInfo {
+    return [self.sections indexOfObject:sectionInfo];
+}
 - (void)addSection:(VHLTableViewSectionInfo *)section {
     [_sections addObject:section];
     [_tableView reloadData];
@@ -377,6 +398,26 @@
     if (sectionInfo) {
         [sectionInfo insertCell:cell At:indexPath.row];
         [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+- (void)updateSection:(VHLTableViewSectionInfo *)section At:(NSUInteger)index Animation:(UITableViewRowAnimation)animation{
+    if (index < _sections.count && section) {
+        NSMutableArray *newSectionArray = [_sections mutableCopy];
+        [newSectionArray replaceObjectAtIndex:index withObject:section];
+        _sections = newSectionArray;
+        
+        [_sections replaceObjectAtIndex:index withObject:section];
+        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:animation];
+    }
+}
+- (void)updateCell:(VHLTableViewCellInfo *)cell At:(NSIndexPath *)indexPath Animation:(UITableViewRowAnimation)animation{
+    if (!cell || !indexPath) {
+        return;
+    }
+    VHLTableViewSectionInfo *sectionInfo = [self getSectionAt:indexPath.section];
+    if (sectionInfo) {
+        [sectionInfo updateCell:cell At:indexPath.row];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:animation];
     }
 }
 - (void)removeSection:(NSUInteger)section {

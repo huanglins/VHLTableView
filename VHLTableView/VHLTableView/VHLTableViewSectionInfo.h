@@ -40,6 +40,7 @@
 - (VHLTableViewCellInfo *)getCellAt:(NSUInteger)row;
 - (void)addCell:(VHLTableViewCellInfo *)cell;
 - (void)insertCell:(VHLTableViewCellInfo *)cell At:(NSUInteger)row;
+- (void)updateCell:(VHLTableViewCellInfo *)cell At:(NSUInteger)row;
 - (void)removeCellAt:(NSUInteger)row;
 
 @end

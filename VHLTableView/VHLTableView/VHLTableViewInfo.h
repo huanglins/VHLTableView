@@ -8,10 +8,10 @@
 
 #import "VHLTableViewUserInfo.h"
 #import <UIKit/UIKit.h>
-#import "VHLTableView.h"
 
-@class VHLTableViewSectionInfo;
-@class VHLTableViewCellInfo;
+#import "VHLTableView.h"
+#import "VHLTableViewSectionInfo.h"
+#import "VHLTableViewCellInfo.h"
 
 // protocol
 @protocol VHLTableViewInfoDelegate <NSObject, UIScrollViewDelegate, VHLTableViewDelegate>
@@ -27,10 +27,13 @@
 
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style;
 
+- (NSUInteger)sectionIndexWithSectionInfo:(VHLTableViewSectionInfo *)sectionInfo;
 - (void)addSection:(VHLTableViewSectionInfo *)section;
 - (void)addCell:(VHLTableViewCellInfo *)cell At:(NSIndexPath *)indexPath;
 - (void)insertSection:(VHLTableViewSectionInfo *)section At:(NSUInteger)index;
 - (void)insertCell:(VHLTableViewCellInfo *)cell At:(NSIndexPath *)indexPath;
+- (void)updateSection:(VHLTableViewSectionInfo *)section At:(NSUInteger)index Animation:(UITableViewRowAnimation)animation;
+- (void)updateCell:(VHLTableViewCellInfo *)cell At:(NSIndexPath *)indexPath Animation:(UITableViewRowAnimation)animation;
 - (void)removeSection:(NSUInteger)section;
 - (void)removeCellAt:(NSIndexPath *)indexPath;
 - (void)clearAllSection;
