@@ -246,6 +246,9 @@
     UIKeyboardType keyboardType = [[self getUserInfoValueForKey:@"keyboardType"] integerValue];
     CGFloat margin = [[self getUserInfoValueForKey:@"fEditorLMargin"] floatValue];
     UIView *selectedBackgroundView = [self getUserInfoValueForKey:@"selectedBackgroundView"];
+    id inputView = (id)[self getUserInfoValueForKey:@"inputView"];
+    NSTextAlignment textAlignment = [[self getUserInfoValueForKey:@"textAlignment"] intValue];
+    UITextFieldViewMode textFieldViewModel = [[self getUserInfoValueForKey:@"textFieldViewModel"] intValue];
     
     CGFloat left = 15.0f;
     CGFloat screenWidth = _cell.bounds.size.width;
@@ -253,18 +256,22 @@
         cell.textLabel.text = title;
         left += [title vhltableview_sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:screenWidth maxHeight:CGFLOAT_MAX].width + margin + 15.0f;
     }
-    CGRect textFieldFrame = CGRectMake(left, 0, screenWidth - left - 5, cell.bounds.size.height);
+    CGRect textFieldFrame = CGRectMake(left, 0, screenWidth - left - 10, cell.bounds.size.height);
     UITextField *textField = [[UITextField alloc] initWithFrame:textFieldFrame];
     textField.borderStyle = UITextBorderStyleNone;
-    textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    textField.clearButtonMode = textFieldViewModel;//UITextFieldViewModeWhileEditing;
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     textField.keyboardType = keyboardType;
     textField.font = font;
+    textField.textAlignment = textAlignment;
     textField.autocorrectionType = _autoCorrectionType;
     textField.returnKeyType = UIReturnKeyDone;
     textField.enablesReturnKeyAutomatically = YES;
     textField.secureTextEntry = secureTextEntry;
+    if (inputView) {
+        textField.inputView = inputView;
+    }
     if ([_actionTarget conformsToProtocol:@protocol(UITextFieldDelegate)]) {
         textField.delegate = _actionTarget;
     }

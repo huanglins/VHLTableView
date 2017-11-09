@@ -365,7 +365,7 @@
     label.textColor = [UIColor grayColor];
     label.text = title;
     label.numberOfLines = 0;
-    label.frame = (CGRect){{15.0f, 0}, [title vhltableview_sizeWithFont:label.font maxWidth:[UIScreen mainScreen].bounds.size.width maxHeight:CGFLOAT_MAX]};
+    label.frame = (CGRect){{15.0f, 8}, [title vhltableview_sizeWithFont:label.font maxWidth:[UIScreen mainScreen].bounds.size.width - 30 maxHeight:CGFLOAT_MAX]};
     [view addSubview:label];
     view.frame = CGRectMake(0, 0, 0, CGRectGetHeight(label.frame));
     return view;
