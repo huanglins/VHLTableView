@@ -136,7 +136,6 @@
     [_tableViewInfo addSection:sectionInfo];
 }
 #pragma mark - delegate
-
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [[self.tableViewInfo getTableView] endEditing:YES];
 }
