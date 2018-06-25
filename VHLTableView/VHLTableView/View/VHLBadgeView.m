@@ -16,7 +16,7 @@
     }
     return self;
 }
-
+#pragma mark - init
 - (void)setUpView {
     UILabel *label = [[UILabel alloc] init];
     label.textAlignment = NSTextAlignmentCenter;
@@ -32,7 +32,7 @@
 - (UILabel *)labelView {
     return [self viewWithTag:10032];
 }
-
+#pragma mark - setter
 - (void)setValue:(NSUInteger)value {
     if (value >= 100) {
         [self setString:@(value).stringValue];
@@ -43,7 +43,7 @@
 
 - (void)setString:(NSString *)string {
     BOOL isPureNumandCharacters = [self isPureNumandCharacters:string];
-    [self setStringImage:isPureNumandCharacters];
+    [self setStringImage:isPureNumandCharacters dotImage:nil];
     UILabel *label = [self labelView];
     label.hidden = NO;
     if (isPureNumandCharacters) {
@@ -59,7 +59,12 @@
     }
     label.center = CGPointMake(self.frame.size.width * 0.5f, self.frame.size.height * 0.5f);
 }
-
+- (void)setString:(NSString *)string dogImage:(UIImage *)image {
+    [self setString:string];
+    BOOL isPureNumandCharacters = [self isPureNumandCharacters:string];
+    [self setStringImage:isPureNumandCharacters dotImage:image];
+}
+#pragma mark - private
 - (BOOL)isPureNumandCharacters:(NSString *)string {
     if (string.length <= 1) {
         if ([string stringByTrimmingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]].length == 0) {
@@ -69,8 +74,10 @@
     return NO;
 }
 
-- (void)setStringImage:(BOOL)isPureNumandCharacters {
-    UIImage *image = [UIImage imageNamed:@"vhltableview_badge"];
+- (void)setStringImage:(BOOL)isPureNumandCharacters dotImage:(UIImage *)image {
+    if (!image) {
+        image = [UIImage imageNamed:@"vhltableview_badge"];
+    }
     if (isPureNumandCharacters) {
         self.image = image;
     } else {

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 /*
-    小红点
+    小红点View
  */
 @interface VHLBadgeView : UIImageView
 
@@ -22,5 +22,7 @@
 - (UILabel *)labelView;
 - (void)setValue:(NSUInteger)value;
 - (void)setString:(NSString *)string;
+
+- (void)setString:(NSString *)string dogImage:(UIImage *)image;
 
 @end

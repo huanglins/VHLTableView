@@ -27,8 +27,8 @@
 @property (nonatomic, assign) SEL  actionSel;
 @property (nonatomic, assign) SEL  calHeightSel;
 
-@property (nonatomic, weak) id makeTarget;
-@property (nonatomic, weak) id actionTarget;
+@property (nonatomic, weak) id makeTarget;                  // 谁来初始化，默认为自己
+@property (nonatomic, weak) id actionTarget;                // 初始化 view 的方法
 @property (nonatomic, weak) id actionTargetForSwitchCell;
 @property (nonatomic, weak) id calHeightTarget;
 

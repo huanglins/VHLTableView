@@ -65,6 +65,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:cellInfo.cellStyle reuseIdentifier:identifier];
     } else {
+        /** */
         for (UIView *subview in cell.contentView.subviews) {
             [subview removeFromSuperview];
         }
@@ -83,8 +84,8 @@
             cell.frame = cellFrame;
         }
         cellInfo.cell = (VHLTableViewCell *)cell;
-        cellInfo.indexPath = indexPath;
-        if ([cellInfo.makeTarget respondsToSelector:cellInfo.makeSel]) {
+        cellInfo.indexPath = indexPath;                                     // 当前 cellInfo indexPath
+        if ([cellInfo.makeTarget respondsToSelector:cellInfo.makeSel]) {    // 初始化 Cell View
             NoWarningPerformSelector(cellInfo.makeTarget, cellInfo.makeSel, cell, cellInfo);
         }
         if (cellInfo.bNeedSeperateLine && tableView.separatorStyle == UITableViewCellSeparatorStyleNone) {
@@ -191,7 +192,7 @@
     if (section < _sections.count) {
         NSString *headerTitle = [self tableView:tableView titleForHeaderInSection:section];
         if (headerTitle) {
-            return [headerTitle vhltableview_sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:_tableView.bounds.size.width maxHeight:CGFLOAT_MAX].height;
+            return [headerTitle vhltableview_sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:_tableView.bounds.size.width maxHeight:CGFLOAT_MAX].height + 8;  // fix: 这里在 title 高度的基础上再加上一点间距
         } else {
             VHLTableViewSectionInfo *sectionInfo = _sections[section];
             if (!sectionInfo.makeHeaderTarget) {
@@ -215,7 +216,7 @@
     if (section < _sections.count) {
         NSString *footerTitle = [self tableView:tableView titleForFooterInSection:section];
         if (footerTitle) {
-            return [footerTitle vhltableview_sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:_tableView.bounds.size.width maxHeight:CGFLOAT_MAX].height;
+            return [footerTitle vhltableview_sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:_tableView.bounds.size.width maxHeight:CGFLOAT_MAX].height + 8;  // fix: 这里在 title 高度的基础上再加上一点间距
         } else {
             VHLTableViewSectionInfo *sectionInfo = _sections[section];
             if (!sectionInfo.makeHeaderTarget) {
@@ -232,6 +233,7 @@
     }
     return CGFLOAT_MIN;
 }
+// * - cell height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section < _sections.count) {
         if (indexPath.row < [_sections[indexPath.section] getCellCount]) {
@@ -367,12 +369,16 @@
     label.numberOfLines = 0;
     label.frame = (CGRect){{15.0f, 8}, [title vhltableview_sizeWithFont:label.font maxWidth:[UIScreen mainScreen].bounds.size.width - 30 maxHeight:CGFLOAT_MAX]};
     [view addSubview:label];
-    view.frame = CGRectMake(0, 0, 0, CGRectGetHeight(label.frame));
+    view.frame = CGRectMake(0, 0, 0, CGRectGetHeight(label.frame) + 8);
     return view;
 }
 // -------------------------------------------------------------------------------------------------
 - (NSUInteger)sectionIndexWithSectionInfo:(VHLTableViewSectionInfo *)sectionInfo {
     return [self.sections indexOfObject:sectionInfo];
+}
+- (NSIndexPath *)cellIndexPathWithCellInfo:(VHLTableViewCellInfo *)cellInfo {
+    UITableViewCell *cell = (UITableViewCell *)cellInfo.cell;
+    return [self.tableView indexPathForCell:cell];
 }
 - (void)addSection:(VHLTableViewSectionInfo *)section {
     [_sections addObject:section];
@@ -443,3 +449,4 @@
 }
 
 @end
+

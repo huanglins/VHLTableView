@@ -28,6 +28,7 @@
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style;
 
 - (NSUInteger)sectionIndexWithSectionInfo:(VHLTableViewSectionInfo *)sectionInfo;
+- (NSIndexPath *)cellIndexPathWithCellInfo:(VHLTableViewCellInfo *)cellInfo;
 - (void)addSection:(VHLTableViewSectionInfo *)section;
 - (void)addCell:(VHLTableViewCellInfo *)cell At:(NSIndexPath *)indexPath;
 - (void)insertSection:(VHLTableViewSectionInfo *)section At:(NSUInteger)index;

@@ -8,8 +8,6 @@
 
 #import "ViewController.h"
 #import "VHLTableViewInfo.h"
-#import "VHLTableViewSectionInfo.h"
-#import "VHLTableViewCellInfo.h"
 
 @interface ViewController () <VHLTableViewInfoDelegate, UITextFieldDelegate>
 @property (nonatomic, strong) VHLTableViewInfo *tableViewInfo;
@@ -83,7 +81,7 @@
     VHLTableViewCellInfo *normalCellInfo2 = [VHLTableViewCellInfo normalCellForSel:@selector(cellInfo:) target:self title:@"我的表情" rightValue:nil imageName:@"s_3" accessoryType:UITableViewCellAccessoryDisclosureIndicator];
     VHLTableViewCellInfo *normalCellInfo3 = [VHLTableViewCellInfo normalCellForSel:@selector(cellInfo:) target:self title:@"照片和视频" rightValue:nil imageName:@"s_4" accessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
-    VHLTableViewSectionInfo *sectionInfo = [VHLTableViewSectionInfo sectionInfoDefault];
+    VHLTableViewSectionInfo *sectionInfo = [VHLTableViewSectionInfo sectionInfoHeader:@"通用设置" footer:@"你那么擅长安慰他人，一定度过了很多自己安慰自己的日子吧。"];
     [sectionInfo addCell:normalCellInfo];
     [sectionInfo addCell:normalCellInfo1];
     [sectionInfo addCell:normalCellInfo2];
@@ -131,11 +129,15 @@
     VHLTableViewCellInfo *centerCellInfo = [VHLTableViewCellInfo centerCellForSel:@selector(cellInfo:) target:self title:@"清空聊天记录"];
     [centerCellInfo addUserInfoValue:[UIColor redColor] forKey:@"titleColor"];
     
+    
     VHLTableViewSectionInfo *sectionInfo = [VHLTableViewSectionInfo sectionInfoHeader:@""];
     [sectionInfo addCell:centerCellInfo];
     [_tableViewInfo addSection:sectionInfo];
 }
 #pragma mark - delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"xx");
+}
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [[self.tableViewInfo getTableView] endEditing:YES];
 }
@@ -149,8 +151,13 @@
 - (void)on:(UISwitch *)switchView {
     NSLog(@"%d", switchView.isOn);
 }
-- (void)cellInfo:(UITableViewCell *)cell {
-    NSLog(@"cell");
+- (void)cellInfo:(VHLTableViewCellInfo *)cellInfo {
+    NSLog(@"%@", [_tableViewInfo cellIndexPathWithCellInfo:cellInfo]);
+    NSLog(@"%@", cellInfo.indexPath);
+    cellInfo.accessoryType = UITableViewCellAccessoryCheckmark;
+    [_tableViewInfo updateCell:cellInfo At:cellInfo.indexPath Animation:UITableViewRowAnimationAutomatic];
+//    cellinfo.accessoryType = UITableViewCellAccessoryCheckmark;
+//    NSLog(@"cell");
 }
 
 - (IBAction)addSection:(id)sender {
